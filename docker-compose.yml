@@ -8,17 +8,36 @@ services:
     networks:
       - app-network
 
+  ldap:
+    image: osixia/openldap:1.5.0
+    container_name: ldap
+    environment:
+      LDAP_ORGANISATION: "Test Org"
+      LDAP_DOMAIN: "ssib.local"
+      LDAP_ADMIN_PASSWORD: "admin"
+    ports:
+      - "389:389"
+    networks:
+      - app-network
+    volumes:
+      - ./ldap_data:/var/lib/ldap
+      - ./ldap_config:/etc/ldap/slapd.d
+
   db:
-    image: mysql:8.0
+    build:
+      context: .
+      dockerfile: mysql.Dockerfile
     container_name: mysql_db
     restart: always
     environment:
-      MYSQL_DATABASE: db
+      MYSQL_DATABASE: husd_alfa
       MYSQL_ROOT_PASSWORD: root
     ports:
       - "3308:3306"
     networks:
       - app-network
+    volumes:
+      - ./init-user.sql:/docker-entrypoint-initdb.d/init-user.sql:ro
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin

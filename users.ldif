@@ -1,0 +1,13 @@
+dn: ou=users,dc=ssib,dc=local
+objectClass: organizationalUnit
+ou: users
+
+dn: uid=s999999,ou=users,dc=ssib,dc=local
+objectClass: inetOrgPerson
+uid: s999999
+sn: Prueba
+givenName: Usuario
+cn: Usuario Prueba
+displayName: Usuario Prueba
+mail: s999999@ssib.local
+userPassword: 1234
